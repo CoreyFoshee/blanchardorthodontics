@@ -6,7 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - npm run build
+        - npm run build:amplify
   artifacts:
     baseDirectory: .
     files:
@@ -15,16 +15,8 @@ frontend:
       - package.json
       - next.config.js
       - node_modules/**/*
+      - required-server-files.json
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
-  customHeaders:
-    - pattern: '**/*'
-      headers:
-        - key: 'Strict-Transport-Security'
-          value: 'max-age=31536000; includeSubDomains'
-        - key: 'X-Frame-Options'
-          value: 'SAMEORIGIN'
-        - key: 'X-XSS-Protection'
-          value: '1; mode=block' 
+      - .next/cache/**/* 

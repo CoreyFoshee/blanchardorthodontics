@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
+    "build:amplify": "node scripts/build-for-amplify.js",
     "start": "next start",
     "lint": "next lint"
   },

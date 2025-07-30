@@ -14,6 +14,12 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Output configuration for Amplify
+  output: 'standalone',
+  // Ensure server files are generated
+  experimental: {
+    outputFileTracingRoot: undefined,
+  },
 }
 
 module.exports = nextConfig 
