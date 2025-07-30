@@ -14,12 +14,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Remove standalone output for Amplify compatibility
-  // output: 'standalone',
-  // Ensure server files are generated
-  experimental: {
-    outputFileTracingRoot: undefined,
-  },
+  // Standard Next.js configuration for Amplify
+  // No output: 'export' since we have API routes
 }
 
 module.exports = nextConfig 
