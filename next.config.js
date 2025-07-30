@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   // Disable strict mode for now to avoid potential issues
   reactStrictMode: false,
   // Ensure proper image optimization
@@ -14,8 +15,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Standard Next.js configuration for Amplify
-  // No output: 'export' since we have API routes
 }
 
 module.exports = nextConfig 
