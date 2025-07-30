@@ -16,6 +16,7 @@ frontend:
     baseDirectory: .next/standalone
     files:
       - '**/*'
+      - .next/required-server-files.json
   cache:
     paths:
       - node_modules/**/*
