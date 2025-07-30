@@ -8,14 +8,8 @@ frontend:
     build:
       commands:
         - npm run build
-        # Prepare build output directory
-        - mkdir amplify-build
-        - cp -r .next/standalone/* amplify-build/
-        - cp .next/standalone/.next/required-server-files.json amplify-build/
-        - cp -r .next/trace amplify-build/ || true
-        - ls -la amplify-build
   artifacts:
-    baseDirectory: /amplify-build
+    baseDirectory: .next
     files:
       - '**/*'
   cache:

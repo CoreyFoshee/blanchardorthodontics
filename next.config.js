@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
   // Disable strict mode for now to avoid potential issues
   reactStrictMode: false,
   // Ensure proper image optimization
