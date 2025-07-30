@@ -14,8 +14,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Output configuration for Amplify
-  output: 'standalone',
+  // Remove standalone output for Amplify compatibility
+  // output: 'standalone',
   // Ensure server files are generated
   experimental: {
     outputFileTracingRoot: undefined,
