@@ -58,8 +58,8 @@ export const CMSProvider: React.FC<CMSProviderProps> = ({ children }) => {
         setIsLoading(true);
         setError(null);
         
-        // Fetch all data from the API route with cache busting
-        const response = await fetch(`/api/cms-data?t=${Date.now()}`);
+        // Fetch all data from the API route
+        const response = await fetch('/api/cms-data');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
