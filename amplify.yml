@@ -11,8 +11,6 @@ frontend:
       commands:
         - npm run build
         - ls -la .next/
-        - cp .next/required-server-files.json .next/
-        - cp .next/trace .next/
         - ls -la .next/required-server-files.json
         - ls -la .next/trace
   artifacts:
