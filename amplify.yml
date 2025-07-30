@@ -15,7 +15,7 @@ frontend:
         - cp -r .next/trace amplify-build/ || true
         - ls -la amplify-build
   artifacts:
-    baseDirectory: amplify-build
+    baseDirectory: /amplify-build
     files:
       - '**/*'
   cache:
