@@ -109,6 +109,18 @@ import sanityCMSService from '../../lib/sanity-cms-service'
 - Check browser console for errors
 - Verify Sanity client configuration
 
+### **AWS Amplify Deployment Issues**
+- Ensure `output: 'standalone'` is set in `next.config.js`:
+  ```javascript
+  // next.config.js
+  module.exports = {
+    output: 'standalone',
+    // any other config...
+  };
+  ```
+- Verify `amplify.yml` uses `baseDirectory: .next/standalone`
+- Check that all environment variables are set in Amplify console
+
 ## 📞 **Need Help?**
 
 - **Sanity Documentation**: https://www.sanity.io/docs
