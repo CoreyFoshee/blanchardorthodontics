@@ -7,6 +7,7 @@ frontend:
     build:
       commands:
         - npm run build
+        - cp .next/required-server-files.json ./
   artifacts:
     baseDirectory: .
     files:
@@ -15,6 +16,7 @@ frontend:
       - package.json
       - next.config.js
       - node_modules/**/*
+      - required-server-files.json
   cache:
     paths:
       - node_modules/**/*
