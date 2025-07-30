@@ -8,10 +8,9 @@ frontend:
     build:
       commands:
         - npm run build
-        # Move required files to artifact root
         - cp .next/standalone/.next/required-server-files.json .next/standalone/
-        - cp .next/standalone/.next/trace .next/standalone/ || true
-        - ls -la .next/standalone
+        - cp .next/trace .next/standalone/ || true
+        - ls -la .next/standalone/
   artifacts:
     baseDirectory: .next/standalone
     files:
