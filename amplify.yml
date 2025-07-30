@@ -11,10 +11,10 @@ frontend:
       commands:
         - npm run build
         - ls -la .next/
-        - cp .next/required-server-files.json ./
-        - cp .next/trace ./
-        - ls -la required-server-files.json
-        - ls -la trace
+        - cp .next/required-server-files.json .next/
+        - cp .next/trace .next/
+        - ls -la .next/required-server-files.json
+        - ls -la .next/trace
   artifacts:
     baseDirectory: .
     files:
@@ -23,8 +23,6 @@ frontend:
       - package.json
       - next.config.js
       - node_modules/**/*
-      - required-server-files.json
-      - trace
   cache:
     paths:
       - node_modules/**/*
