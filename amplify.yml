@@ -10,13 +10,13 @@ frontend:
     build:
       commands:
         - npm run build
+        # Move required-server-files.json up one level so Amplify can find it
+        - cp .next/standalone/.next/required-server-files.json .next/standalone/
         - ls -la .next/standalone/
-        - ls -la .next/standalone/.next/
   artifacts:
     baseDirectory: .next/standalone
     files:
       - '**/*'
-      - .next/required-server-files.json
   cache:
     paths:
       - node_modules/**/*
