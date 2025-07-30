@@ -9,7 +9,7 @@ frontend:
       commands:
         - npm run build
         - cp .next/standalone/.next/required-server-files.json .next/standalone/
-        - cp .next/trace .next/standalone/ || true
+        - cp -r .next/trace .next/standalone/ || true
         - ls -la .next/standalone/
   artifacts:
     baseDirectory: .next/standalone
