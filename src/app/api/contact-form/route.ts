@@ -49,14 +49,11 @@ export async function POST(request: NextRequest) {
     // Submit to Go High Level via webhook
     console.log('🚀 Submitting to Go High Level...');
     const result = await submitToGoHighLevel({
-      firstName: name.split(' ')[0] || name,
-      lastName: name.split(' ').slice(1).join(' ') || '',
+      name,
       email,
       phone,
       subject: subject || 'Website Contact Form',
       message: message || '',
-      source: 'Website Contact Form',
-      location: 'Blanchard Orthodontics',
       consent,
     });
 
@@ -74,7 +71,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { 
         error: 'There was an error sending your message. Please try again.',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
       },
       { status: 500 }
     );
