@@ -58,8 +58,16 @@ export const CMSProvider: React.FC<CMSProviderProps> = ({ children }) => {
         setIsLoading(true);
         setError(null);
         
+        // Add timeout to prevent infinite loading
+        const timeoutId = setTimeout(() => {
+          console.warn('⚠️ CMS data loading timeout - continuing without data');
+          setIsLoading(false);
+        }, 10000); // 10 second timeout
+        
         // Fetch all data from the API route
         const response = await fetch('/api/cms-data');
+        clearTimeout(timeoutId);
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -227,12 +235,23 @@ export const CMSProvider: React.FC<CMSProviderProps> = ({ children }) => {
     searchArticles,
   };
 
+  // Don't block the entire page for loading - show content with loading state
   if (isLoading) {
-    return <div>Loading... {error && `Error: ${error}`}</div>;
+    return (
+      <CMSContext.Provider value={value}>
+        {children}
+      </CMSContext.Provider>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    console.error('CMS Error:', error);
+    // Don't block the page for CMS errors - show content anyway
+    return (
+      <CMSContext.Provider value={value}>
+        {children}
+      </CMSContext.Provider>
+    );
   }
 
   // Debug: Show data counts

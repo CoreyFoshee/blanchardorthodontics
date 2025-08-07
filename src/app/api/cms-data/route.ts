@@ -72,9 +72,20 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching CMS data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch CMS data' },
-      { status: 500 }
-    );
+    
+    // Return empty data instead of error to prevent page blocking
+    return NextResponse.json({
+      infoBanners: [],
+      articles: [],
+      categories: [],
+      teamMembers: [],
+      siteSettings: null,
+    }, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   }
 } 
