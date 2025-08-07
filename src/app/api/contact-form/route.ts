@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitToGoHighLevel } from '../../../../lib/go-high-level';
 
+export async function GET() {
+  return NextResponse.json({
+    message: 'Contact form API is working',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    hasWebhookUrl: !!process.env.GOHIGHLEVEL_WEBHOOK_URL,
+    hasLocationId: !!process.env.GOHIGHLEVEL_LOCATION_ID,
+    hasContactTags: !!process.env.GOHIGHLEVEL_CONTACT_TAGS,
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
