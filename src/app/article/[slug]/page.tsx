@@ -130,4 +130,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
       <ArticleDetailPageContent params={params} />
     </ClientWrapper>
   );
-} 
+}
+
+// Enable ISR - regenerate every 5 minutes
+export const revalidate = 300; 

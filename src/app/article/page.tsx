@@ -103,4 +103,7 @@ export default async function ArticlePage() {
       <ArticlePageContent />
     </ClientWrapper>
   );
-} 
+}
+
+// Enable ISR - regenerate every 5 minutes
+export const revalidate = 300; 
