@@ -5,6 +5,7 @@ import { InfoBanner } from '../components/InfoBanner';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ClientWrapper } from '../components/ClientWrapper';
+import { ContactForm } from '../components/ContactForm';
 
 // Pixel-perfect migration of index.html to Next.js React page
 // All class names, structure, and content are preserved
@@ -233,26 +234,7 @@ function HomeContent() {
               </div>
             </div>
             <div className="appointment-form-wrap">
-              <div className="form-block w-form">
-                <form id="wf-form-Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" className="form-minimum-width" data-wf-page-id="6512cf86865dd3d45d66087f" data-wf-element-id="72dd4764-e97b-2725-fbd1-54b4ff4e9c8f">
-                  <div className="w-layout-grid appointment-grid-wrap">
-                    <div className="input-block"><input className="form-input-field border-field w-input" maxLength={256} name="Name" data-name="Name" placeholder="Name" type="text" id="Name" required /></div>
-                    <div className="input-block"><input className="form-input-field border-field w-input" maxLength={256} name="Email" data-name="Email" placeholder="Email" type="email" id="Email" required /></div>
-                    <div className="input-block"><input className="form-input-field border-field w-input" maxLength={256} name="Phone-Number" data-name="Phone Number" placeholder="Phone" type="tel" id="Phone-Number" required /></div>
-                    <div className="input-block"><input className="form-input-field border-field w-input" maxLength={256} name="Subject-Field" data-name="Subject Field" placeholder="Subject" type="text" id="Subject-Field" required /></div>
-                  </div>                  <label className="w-checkbox checkbox-field-2">
-                    <div className="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" id="checkbox" name="checkbox" data-name="Checkbox" style={{opacity:0,position:'absolute',zIndex:-1}} /><span className="checkbox-label w-form-label">By providing your phone number, you agree to receive text messages from Blanchard Orthodontics. Message and data rates may apply. Message frequency varies. <em>Reply STOP to opt-out.</em></span>
-                  </label>
-                  <div data-sitekey="6LeST68oAAAAAAM97OniU3BpJ-uyDRDYCl9MwQ4e" className="w-form-formrecaptcha g-recaptcha g-recaptcha-error g-recaptcha-disabled"></div>
-                  <div className="appointment-button-section left-align"><input type="submit" data-wait="Please wait..." className="button hover-white w-button" value="Submit" /></div>
-                </form>
-                <div className="appointment-success-message w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div className="appointment-error-message w-form-fail">
-                  <div className="error-message-title">Oops! Something went wrong while submitting the form.</div>
-                </div>
-              </div>
+              <ContactForm variant="home" />
             </div>
           </div>
         </div>

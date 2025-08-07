@@ -2,6 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Form loading animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Checkbox styling */
+.w-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+}
+
+.w-checkbox input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Form submission state styles */
+.w-button.submitting {
+  position: relative;
+}
+
+.w-button.submitting:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+}
+
+/* Loading overlay for forms */
+.form-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
 /* Fix for Sanity Studio overlay issues */
 .w-webflow-badge {
   display: none !important;

@@ -1,197 +1,72 @@
-# Blanchard Orthodontics - Next.js + Sanity CMS
+# Blanchard Orthodontics - Next.js Website
 
-A modern, responsive website for Blanchard Orthodontics built with Next.js 14, React, and Sanity CMS.
+A modern, responsive website for Blanchard Orthodontics built with Next.js 14, featuring dynamic content management through Sanity CMS and integrated contact forms with Go High Level.
 
 ## 🚀 Features
 
-- **Next.js 14** with App Router
-- **React 18** with TypeScript
-- **Sanity CMS** for content management
-- **Responsive Design** with Webflow CSS
-- **SEO Optimized** with metadata
-- **Performance Optimized** with image optimization
+- **Modern Next.js 14** with App Router
+- **Sanity CMS Integration** for dynamic content management
+- **Go High Level Webhook Integration** for contact form submissions
+- **Responsive Design** with Webflow-migrated styling
+- **SEO Optimized** with proper meta tags and structured data
+- **Contact Form Integration** with automatic contact tagging
+- **Blog/Article System** with categories and featured images
+- **Team Member Profiles** with detailed information
+- **Location Pages** with contact information
 
-## 📁 Project Structure
+## 🛠️ Tech Stack
 
-```
-blanchard-orthodontics-next/
-├── src/
-│   ├── app/                 # Next.js App Router pages
-│   │   ├── about/          # About page
-│   │   ├── article/        # Blog page
-│   │   ├── locations/      # Locations page
-│   │   ├── service/        # Services page
-│   │   ├── layout.tsx      # Root layout
-│   │   └── page.tsx        # Home page
-│   ├── components/         # Reusable React components
-│   │   ├── Header.tsx      # Navigation header
-│   │   └── Footer.tsx      # Site footer
-│   └── styles/            # CSS files
-├── lib/
-│   └── sanity.config.ts   # Sanity CMS configuration
-├── public/               # Static assets
-│   ├── images/          # Image files
-│   └── fonts/           # Font files
-└── package.json
-```
+- **Framework:** Next.js 14 (App Router)
+- **CMS:** Sanity.io
+- **Styling:** CSS (migrated from Webflow)
+- **Lead Management:** Go High Level (Webhook Integration)
+- **Deployment:** Vercel/Netlify ready
 
-## 🛠️ Setup Instructions
+## 📋 Prerequisites
 
-### 1. Install Dependencies
+- Node.js 18+ 
+- npm or yarn
+- Sanity account
+- Go High Level account
+
+## 🚀 Quick Start
+
+### 1. Clone and Install
 
 ```bash
+git clone <repository-url>
+cd blanchard-orthodontics-next
 npm install
 ```
 
-### 2. Environment Variables
+### 2. Environment Setup
 
-Create a `.env.local` file in the root directory:
+Copy the environment template and configure your services:
 
-```env
-# Sanity Configuration
-NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+```bash
+cp env.template .env.local
+```
+
+**Required Environment Variables:**
+
+```bash
+# Sanity CMS
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
 NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_TOKEN=your-api-token
+SANITY_API_TOKEN=your_sanity_token
+
+# Go High Level Webhook (Primary)
+GOHIGHLEVEL_WEBHOOK_URL=https://your-webhook-url.gohighlevel.com/webhook
+GOHIGHLEVEL_LOCATION_ID=your_location_id
+GOHIGHLEVEL_CONTACT_TAGS=blanchard-orthodontics,website-lead
+
+# Optional Go High Level Configuration
+GOHIGHLEVEL_CALENDAR_ID=your_calendar_id
+GOHIGHLEVEL_FUNNEL_ID=your_funnel_id
+GOHIGHLEVEL_CAMPAIGN_ID=your_campaign_id
 ```
 
-### 3. Sanity CMS Setup
-
-1. **Create a Sanity Project:**
-   ```bash
-   npm create sanity@latest
-   ```
-
-2. **Configure your Sanity Studio:**
-   - Choose your project name
-   - Select "Clean project with no predefined schemas"
-   - Choose your preferred dataset
-
-3. **Get your Project ID:**
-   - Go to [sanity.io/manage](https://sanity.io/manage)
-   - Select your project
-   - Copy the Project ID
-
-4. **Create API Token:**
-   - In your Sanity project settings
-   - Go to API section
-   - Create a new token with read permissions
-
-### 4. Sanity Schema Setup
-
-Create the following content types in your Sanity Studio:
-
-#### Post Schema (for blog)
-```javascript
-export default {
-  name: 'post',
-  title: 'Post',
-  type: 'document',
-  fields: [
-    {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: Rule => Rule.required()
-    },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      validation: Rule => Rule.required()
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime'
-    },
-    {
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text'
-    },
-    {
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      }
-    },
-    {
-      name: 'body',
-      title: 'Body',
-      type: 'blockContent'
-    },
-    {
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: [{type: 'author'}]
-    },
-    {
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      of: [{type: 'reference', to: {type: 'category'}}]
-    }
-  ]
-}
-```
-
-#### Service Schema
-```javascript
-export default {
-  name: 'service',
-  title: 'Service',
-  type: 'document',
-  fields: [
-    {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: Rule => Rule.required()
-    },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      }
-    },
-    {
-      name: 'description',
-      title: 'Description',
-      type: 'text'
-    },
-    {
-      name: 'mainImage',
-      title: 'Main Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      }
-    },
-    {
-      name: 'content',
-      title: 'Content',
-      type: 'blockContent'
-    },
-    {
-      name: 'order',
-      title: 'Order',
-      type: 'number'
-    }
-  ]
-}
-```
-
-### 5. Run Development Server
+### 3. Run Development Server
 
 ```bash
 npm run dev
@@ -199,95 +74,128 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000) to see your site.
 
+## 📝 Content Management
+
+### Sanity Studio
+
+Access the CMS at `/sanity-studio` or run separately:
+
+```bash
+cd sanity-studio
+npm run dev
+```
+
+### Content Types
+
+- **Articles:** Blog posts with categories and featured images
+- **Categories:** Article categorization
+- **Team Members:** Staff profiles with photos and details
+- **Info Banners:** Promotional content blocks
+- **Site Settings:** Global configuration
+
+## 🔗 Go High Level Integration
+
+The website integrates with Go High Level via webhooks for contact form submissions:
+
+### Features
+- ✅ **Automatic contact creation** from form submissions
+- ✅ **Contact tagging** with "blanchard-orthodontics"
+- ✅ **Form data capture** (name, email, phone, subject, message)
+- ✅ **Consent tracking** for SMS communications
+- ✅ **UTM tracking** for marketing attribution
+
+### Setup
+1. Create a webhook in Go High Level
+2. Add the webhook URL to your `.env.local`
+3. Test form submissions
+4. Verify contacts appear in Go High Level dashboard
+
 ## 🎨 Customization
 
-### Adding New Pages
-
-1. Create a new folder in `src/app/`
-2. Add a `page.tsx` file
-3. Import and use the Header/Footer components from layout
-
 ### Styling
+- CSS files are in `src/styles/` and `public/css/`
+- Main styles: `blanchard-orthodontics.webflow.css`
+- Responsive design with mobile-first approach
 
-- Main styles are in `src/styles/blanchard-orthodontics.webflow.css`
-- Component-specific styles can be added as CSS modules
-- Global styles in `src/app/globals.css`
+### Components
+- `ContactForm`: Reusable contact form component
+- `CMSProvider`: Context provider for CMS data
+- `Footer`: Site footer component
 
-### Content Management
+## 📱 Pages
 
-- Blog posts: Manage through Sanity Studio
-- Services: Update through Sanity Studio
-- Static content: Edit directly in the component files
+- **Home** (`/`): Main landing page with contact form
+- **About** (`/about`): Practice information
+- **Services** (`/service`): Treatment options
+- **Locations** (`/locations`): Office locations with contact form
+- **Team** (`/orthodontists`): Staff profiles
+- **Blog** (`/article`): Articles and news
+- **Appointments** (`/appointments`): Scheduling information
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy!
+```bash
+npm run build
+vercel --prod
+```
 
-### Other Platforms
+### Netlify
 
-The app can be deployed to any platform that supports Next.js:
-- Netlify
-- AWS Amplify
-- DigitalOcean App Platform
+```bash
+npm run build
+# Deploy the .next folder
+```
 
-## 📝 Content Types
+### Environment Variables
 
-### Blog Posts
-- Title, slug, excerpt
-- Main image with hotspot
-- Rich text body content
-- Author and categories
-
-### Services
-- Title, description
-- Main image
-- Rich text content
-- Order for display
-
-### Locations
-- Name, address, phone, email
-- Hours of operation
-- Map URL
-- Location image
+Make sure to set all environment variables in your deployment platform.
 
 ## 🔧 Development
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
 
-### Code Style
+### File Structure
 
-- TypeScript for type safety
-- ESLint for code quality
-- Prettier for formatting (recommended)
+```
+src/
+├── app/             # Next.js App Router pages
+├── components/      # React components
+├── styles/          # CSS files
+└── lib/            # Utility functions and configurations
+```
 
-## 🤝 Contributing
+## 📊 Analytics & Tracking
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+- Form submissions are logged for debugging
+- UTM parameters are captured and sent to Go High Level
+- Contact tagging for segmentation
+
+## 🛡️ Security
+
+- Environment variables for sensitive data
+- Form validation on client and server
+- CORS protection for API routes
+- Input sanitization
+
+## 📞 Support
+
+For technical support or questions about the integration:
+- Check the browser console for error messages
+- Verify environment variables are set correctly
+- Test webhook connectivity with the provided test scripts
 
 ## 📄 License
 
-This project is private and proprietary to Blanchard Orthodontics.
-
-## 🆘 Support
-
-For technical support or questions:
-- Check the [Next.js documentation](https://nextjs.org/docs)
-- Review the [Sanity documentation](https://www.sanity.io/docs)
-- Contact the development team
+This project is proprietary to Blanchard Orthodontics.
 
 ---
 

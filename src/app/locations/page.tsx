@@ -5,6 +5,7 @@ import { InfoBanner } from '../../components/InfoBanner';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ClientWrapper } from '../../components/ClientWrapper';
+import { ContactForm } from '../../components/ContactForm';
 
 // Pixel-perfect migration of locations.html to Next.js React page
 // All class names, structure, and content are preserved
@@ -112,37 +113,7 @@ function LocationsPageContent() {
               <h2 className="heading-2">Contact Us</h2>
             </div>
             <div className="contact-form-area">
-              <div className="form-block w-form">
-                <form id="wf-form-Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" className="form-minimum-width contact-page-form" data-wf-page-id="6512cf86865dd3d45d6608d3" data-wf-element-id="3f816721-25d9-06ee-5b30-655e553d742e">
-                  <div className="w-row">
-                    <div className="name-column w-col w-col-6"><label htmlFor="name" className="contact-form-lable">Name</label>
-                      <div className="input-block"><img src="/images/form-user.svg" loading="lazy" alt="Form User Icon" className="form-icon" /><input className="form-input-field border-field w-input" maxLength={256} name="Name" data-name="Name" placeholder="Name" type="text" id="Name" required={true} /></div>
-                    </div>
-                    <div className="email-column w-col w-col-6"><label htmlFor="name-3" className="contact-form-lable">email</label>
-                      <div className="input-block"><img src="/images/form-mail.svg" loading="lazy" alt="Form Email Icon" className="form-icon" /><input className="form-input-field border-field w-input" maxLength={256} name="Email" data-name="Email" placeholder="Email" type="email" id="Email" required={true} /></div>
-                    </div>
-                  </div>
-                  <div className="w-row">
-                    <div className="phone-number-column w-col w-col-6"><label htmlFor="name-3" className="contact-form-lable">Phone</label>
-                      <div className="input-block"><img src="/images/form-phone.svg" loading="lazy" alt="Form Phone Number" className="form-icon" /><input className="form-input-field border-field w-input" maxLength={256} name="Phone-Number" data-name="Phone Number" placeholder="Phone" type="tel" id="Phone-Number" /></div>
-                    </div>
-                    <div className="project-column w-col w-col-6"><label htmlFor="name-3" className="contact-form-lable">Subject</label>
-                      <div className="input-block"><input className="form-input-field border-field w-input" maxLength={256} name="Subject-Field" data-name="Subject Field" placeholder="Subject" type="text" id="Subject-Field" /><img src="/images/form-bookmark.svg" loading="lazy" alt="Form Phone Number" className="form-icon" /></div>
-                    </div>
-                  </div>
-                  <div className="contact-form-text-area"><label htmlFor="name-3" className="contact-form-lable">how we can help you?</label><img src="/images/form-edit.svg" loading="lazy" alt="Form Phone Number" className="form-icon textarea" /><textarea placeholder="Type Your Message" maxLength={5000} id="Message" name="Message" data-name="Message" className="form-input-field textarea-border w-input"></textarea></div>
-                  <div data-sitekey="6LeST68oAAAAAAM97OniU3BpJ-uyDRDYCl9MwQ4e" className="w-form-formrecaptcha recaptcha g-recaptcha g-recaptcha-error g-recaptcha-disabled"></div><label className="w-checkbox checkbox-field">
-                    <div className="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="checkbox" id="checkbox" data-name="Checkbox" style={{ opacity: 0, position: 'absolute', zIndex: -1 }} /><span className="checkbox-label w-form-label">By providing your phone number, you agree to receive text messages from Blanchard Orthodontics. Message and data rates may apply. Message frequency varies. <em>Reply STOP to opt-out.</em></span>
-                  </label>
-                  <div className="appointment-button-section left-align"><input type="submit" data-wait="Please wait..." className="button-large w-button" value="Submit" /></div>
-                </form>
-                <div className="appointment-success-message w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div className="appointment-error-message w-form-fail">
-                  <div className="form-error-text">Oops! Something went wrong while submitting the form.</div>
-                </div>
-              </div>
+              <ContactForm variant="locations" />
               <div className="section-title-area center-align"></div>
             </div>
           </div>
