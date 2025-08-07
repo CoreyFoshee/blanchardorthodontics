@@ -26,3 +26,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Revalidation failed' }, { status: 500 });
   }
 }
+
+// Add a comment for the webhook URL when you move to custom domain
+// Update Sanity webhook URL to: https://blanchardorthodontics.com/api/revalidate
