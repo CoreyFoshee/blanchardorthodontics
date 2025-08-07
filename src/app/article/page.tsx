@@ -1,68 +1,29 @@
-'use client';
-
 import React from 'react';
-import { useCMS } from '../../components/CMSProvider';
 import { InfoBanner } from '../../components/InfoBanner';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ClientWrapper } from '../../components/ClientWrapper';
+import { getAllArticles } from '../../../lib/sanity.config';
 
 // Pixel-perfect migration of article.html to Next.js React page
 // All class names, structure, and content are preserved
 // All image paths updated to /images/...
 
-function ArticlePageContent() {
-  const { articles, formatDate, isLoading, error } = useCMS();
+async function ArticlePageContent() {
+  // Fetch articles server-side
+  const articles = await getAllArticles();
 
-  if (isLoading) {
-    return (
-      <>
-        <InfoBanner />
-        <Header />
-        <div className="banner-title-area-section">
-          <div className="banner-title-overlay"></div>
-          <div className="banner-area-title">
-            <div className="container w-container">
-              <div className="title-area-content">
-                <h1 className="banner-title-text">Blog Posts</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="blog-listing">
-          <div className="container w-container">
-            <div>Loading articles...</div>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+  // Helper function
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
-  if (error) {
-    return (
-      <>
-        <InfoBanner />
-        <Header />
-        <div className="banner-title-area-section">
-          <div className="banner-title-overlay"></div>
-          <div className="banner-area-title">
-            <div className="container w-container">
-              <div className="title-area-content">
-                <h1 className="banner-title-text">Blog Posts</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="blog-listing">
-          <div className="container w-container">
-            <div>Error loading articles: {error}</div>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+
 
   return (
     <>
@@ -82,7 +43,7 @@ function ArticlePageContent() {
         <div className="container w-container">
           <div className="w-dyn-list">
             <div role="list" className="w-dyn-items w-row">
-              {articles.map((article) => (
+              {articles.map((article: any) => (
                 <div key={article._id} role="listitem" className="collection-item-2 w-dyn-item w-col w-col-4">
                   <div className="article-item">
                     <a href={`/article/${article.slug.current}`} className="w-inline-block">
@@ -136,7 +97,7 @@ function ArticlePageContent() {
   );
 }
 
-export default function ArticlePage() {
+export default async function ArticlePage() {
   return (
     <ClientWrapper>
       <ArticlePageContent />

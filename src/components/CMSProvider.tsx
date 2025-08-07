@@ -235,24 +235,13 @@ export const CMSProvider: React.FC<CMSProviderProps> = ({ children }) => {
     searchArticles,
   };
 
-  // Don't block the entire page for loading - show content with loading state
-  if (isLoading) {
-    return (
-      <CMSContext.Provider value={value}>
-        {children}
-      </CMSContext.Provider>
-    );
-  }
-
-  if (error) {
-    console.error('CMS Error:', error);
-    // Don't block the page for CMS errors - show content anyway
-    return (
-      <CMSContext.Provider value={value}>
-        {children}
-      </CMSContext.Provider>
-    );
-  }
+  // Always render children, even during loading or errors
+  // This prevents hydration mismatches
+  return (
+    <CMSContext.Provider value={value}>
+      {children}
+    </CMSContext.Provider>
+  );
 
   // Debug: Show data counts
   console.log('CMSProvider data:', {

@@ -6,7 +6,7 @@ export const serverClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'sln6nq50',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
-  useCdn: true,
+  useCdn: true, // Re-enabled for performance
   token: process.env.SANITY_API_TOKEN,
 })
 
@@ -15,7 +15,7 @@ export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'sln6nq50',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
-  useCdn: true,
+  useCdn: true, // Re-enabled for performance
 })
 
 const builder = imageUrlBuilder(client)
