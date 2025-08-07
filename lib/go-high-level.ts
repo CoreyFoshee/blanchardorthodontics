@@ -21,13 +21,15 @@ export interface GoHighLevelFormData {
   consent: boolean;
 }
 
-// Default configuration
-export const goHighLevelConfig: GoHighLevelConfig = {
-  webhookUrl: process.env.GOHIGHLEVEL_WEBHOOK_URL || '',
-  locationId: process.env.GOHIGHLEVEL_LOCATION_ID || '',
-  calendarId: process.env.GOHIGHLEVEL_CALENDAR_ID || '',
-  funnelId: process.env.GOHIGHLEVEL_FUNNEL_ID || '',
-  campaignId: process.env.GOHIGHLEVEL_CAMPAIGN_ID || ''
+// Get configuration at runtime
+export const getGoHighLevelConfig = (): GoHighLevelConfig => {
+  return {
+    webhookUrl: process.env.GOHIGHLEVEL_WEBHOOK_URL || '',
+    locationId: process.env.GOHIGHLEVEL_LOCATION_ID || '',
+    calendarId: process.env.GOHIGHLEVEL_CALENDAR_ID || '',
+    funnelId: process.env.GOHIGHLEVEL_FUNNEL_ID || '',
+    campaignId: process.env.GOHIGHLEVEL_CAMPAIGN_ID || ''
+  };
 };
 
 // Get tags from environment variable or use default
@@ -48,7 +50,9 @@ export async function submitToGoHighLevel(formData: {
   consent: boolean;
 }): Promise<{ success: boolean; message: string }> {
   try {
-    if (!goHighLevelConfig.webhookUrl) {
+    const config = getGoHighLevelConfig();
+    
+    if (!config.webhookUrl) {
       console.log('Go High Level webhook URL not configured. Form submission logged:', {
         ...formData,
         source: 'website_contact_form',
@@ -81,10 +85,10 @@ export async function submitToGoHighLevel(formData: {
       // Add tags to the contact
       tags: getContactTags(),
       // Go High Level specific fields
-      locationId: goHighLevelConfig.locationId,
-      calendarId: goHighLevelConfig.calendarId,
-      funnelId: goHighLevelConfig.funnelId,
-      campaignId: goHighLevelConfig.campaignId,
+      locationId: config.locationId,
+      calendarId: config.calendarId,
+      funnelId: config.funnelId,
+      campaignId: config.campaignId,
       // Additional metadata
       timestamp: new Date().toISOString(),
       utm_source: 'website',
@@ -95,7 +99,7 @@ export async function submitToGoHighLevel(formData: {
     console.log('Submitting to Go High Level:', goHighLevelData);
 
     // Submit to Go High Level webhook
-    const response = await fetch(goHighLevelConfig.webhookUrl, {
+    const response = await fetch(config.webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
