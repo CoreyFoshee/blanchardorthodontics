@@ -105,5 +105,5 @@ export default async function ArticlePage() {
   );
 }
 
-// Enable ISR - regenerate every 5 minutes
-export const revalidate = 300; 
+// Enable ISR - regenerate every 2 minutes
+export const revalidate = 120; 
