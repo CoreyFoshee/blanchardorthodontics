@@ -43,6 +43,14 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     setSubmitStatus('idle');
     setErrorMessage('');
 
+    // Track form start with Meta Pixel
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'CompleteRegistration', {
+        content_name: 'Contact Form Started',
+        content_category: 'Form'
+      });
+    }
+
     try {
       const response = await fetch('/api/contact-form', {
         method: 'POST',
@@ -60,6 +68,15 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       console.log('Form submission response:', { response: response.status, result });
 
       if (response.ok) {
+        // Track form submission with Meta Pixel
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead', {
+            content_name: 'Contact Form Submission',
+            content_category: 'Form',
+            value: 1,
+            currency: 'USD'
+          });
+        }
 
         setSubmitStatus('success');
         setFormData({
