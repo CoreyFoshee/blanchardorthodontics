@@ -57,6 +57,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
       const result = await response.json();
 
+      console.log('Form submission response:', { response: response.status, result });
 
       if (response.ok) {
 
@@ -178,10 +179,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           </div>
         )}
         
-        {/* Debug info - remove this later */}
-        <div style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
-          Debug: Status = {submitStatus}, Error = {errorMessage || 'none'}
-        </div>
+
         
         {(submitStatus === 'error' || errorMessage) && (
           <div className="appointment-error-message w-form-fail">
