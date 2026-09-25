@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const article = await getArticleBySlug(params.slug);
-    
+
     if (!article) {
       return NextResponse.json(
         { error: 'Article not found' },
@@ -17,7 +17,7 @@ export async function GET(
 
     return NextResponse.json(article);
   } catch (error) {
-    console.error('Error fetching article:', error);
+    console.error('Article request failed');
     return NextResponse.json(
       { error: 'Failed to fetch article' },
       { status: 500 }

@@ -1,9 +1,11 @@
+import { pageMetadata } from '../../../lib/seo';
+export const metadata = pageMetadata("/article", "Orthodontic Articles & Patient Guides | Blanchard Orthodontics", "Read patient guides from Dr. Katelyn Blanchard about braces, clear aligners, adult orthodontics, and choosing orthodontic care in East Texas.");
+export const revalidate = 120;
 import React from 'react';
 import { InfoBanner } from '../../components/InfoBanner';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { ClientWrapper } from '../../components/ClientWrapper';
-import { getAllArticles } from '../../../lib/sanity.config';
+import { getArticles } from '../../../lib/site-content';
 
 // Pixel-perfect migration of article.html to Next.js React page
 // All class names, structure, and content are preserved
@@ -11,7 +13,7 @@ import { getAllArticles } from '../../../lib/sanity.config';
 
 async function ArticlePageContent() {
   // Fetch articles server-side
-  const articles = await getAllArticles();
+  const articles = await getArticles();
 
   // Helper function
   const formatDate = (dateString: string): string => {
@@ -47,20 +49,20 @@ async function ArticlePageContent() {
                 <div key={article._id} role="listitem" className="collection-item-2 w-dyn-item w-col w-col-4">
                   <div className="article-item">
                     <a href={`/article/${article.slug.current}`} className="w-inline-block">
-                      <img 
-                        height="" 
-                        loading="lazy" 
-                        src={article.featuredImage?.asset?.url ? 
-                          `${article.featuredImage.asset.url}?fit=crop&crop=center&w=250&h=250` : 
+                      <img
+                        height=""
+                        loading="lazy"
+                        src={article.featuredImage?.asset?.url ?
+                          `${article.featuredImage.asset.url}?fit=crop&crop=center&w=250&h=250` :
                           '/images/webclip.jpg'
-                        } 
-                        alt={article.title} 
-                        className="article-thumbnail-image" 
+                        }
+                        alt={article.title}
+                        className="article-thumbnail-image"
                       />
                     </a>
                     <div className="post-listing-content">
                       <div className="article-listing-category">
-                        <a href={`/category/${article.category?.slug?.current}`} className="article-category-link">{article.category?.name}</a>
+                        <span className="article-category-link">{article.category?.name}</span>
                       </div>
                       <a href={`/article/${article.slug.current}`} className="article-title-link w-inline-block">
                         <h2 className="article-title">{article.title}</h2>
@@ -99,11 +101,10 @@ async function ArticlePageContent() {
 
 export default async function ArticlePage() {
   return (
-    <ClientWrapper>
+    <>
       <ArticlePageContent />
-    </ClientWrapper>
+    </>
   );
 }
 
 // Enable ISR - regenerate every 2 minutes
-export const revalidate = 120; 

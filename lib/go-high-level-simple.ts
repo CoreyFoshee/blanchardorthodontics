@@ -20,7 +20,7 @@ export async function submitToGoHighLevelSimple(formData: {
         location: 'blanchard_orthodontics',
         timestamp: new Date().toISOString()
       });
-      
+
       return {
         success: true,
         message: 'Thank you! Your submission has been received!'
@@ -67,7 +67,7 @@ export async function submitToGoHighLevelSimple(formData: {
         errorText: errorText,
         url: response.url
       });
-      
+
       // Return success anyway for now, but log the error
       console.log('Form submission logged due to API error:', {
         ...formData,
@@ -76,7 +76,7 @@ export async function submitToGoHighLevelSimple(formData: {
         timestamp: new Date().toISOString(),
         apiError: `${response.status} - ${errorText}`
       });
-      
+
       return {
         success: true,
         message: 'Thank you! Your submission has been received!'
@@ -93,16 +93,16 @@ export async function submitToGoHighLevelSimple(formData: {
 
   } catch (error) {
     console.error('Error submitting to Go High Level API:', error);
-    
+
     // Return success anyway for now, but log the error
     console.log('Form submission logged due to error:', {
       ...formData,
       source: 'website_contact_form',
       location: 'blanchard_orthodontics',
       timestamp: new Date().toISOString(),
-      error: error.message
+      error: error instanceof Error ? error.message : "Unknown error"
     });
-    
+
     return {
       success: true,
       message: 'Thank you! Your submission has been received!'

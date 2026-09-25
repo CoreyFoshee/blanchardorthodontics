@@ -71,8 +71,8 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Error fetching CMS data:', error);
-    
+    console.error('CMS data request failed');
+
     // Return empty data instead of error to prevent page blocking
     return NextResponse.json({
       infoBanners: [],
@@ -88,4 +88,4 @@ export async function GET() {
       },
     });
   }
-} 
+}

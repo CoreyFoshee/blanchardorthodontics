@@ -1,10 +1,11 @@
-'use client';
+import { pageMetadata } from '../../../lib/seo';
+export const metadata = pageMetadata("/service", "Braces & Clear Aligners in East Texas | Blanchard Orthodontics", "Compare metal braces, clear braces, and clear aligners at Blanchard Orthodontics in Tyler and Jacksonville. Explore your options at a free consultation.");
+export const revalidate = 120;
 
 import React from 'react';
 import { InfoBanner } from '../../components/InfoBanner';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { ClientWrapper } from '../../components/ClientWrapper';
 
 // Pixel-perfect migration of service.html to Next.js React page
 // All class names, structure, and content are preserved
@@ -81,8 +82,8 @@ function ServicePageContent() {
 
 export default function ServicePage() {
   return (
-    <ClientWrapper>
+    <>
       <ServicePageContent />
-    </ClientWrapper>
+    </>
   );
-} 
+}

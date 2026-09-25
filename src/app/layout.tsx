@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "../styles/normalize.css";
 import "../styles/webflow.css";
 import "../styles/blanchard-orthodontics.webflow.css";
-import { CMSProvider } from "../components/CMSProvider";
+import { AnalyticsEvents } from "../components/AnalyticsEvents";
+import "../styles/search-repairs.css";
 import Scripts from "../components/Scripts";
 
 export const metadata: Metadata = {
@@ -18,13 +19,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL('https://blanchardorthodontics.com'),
-  alternates: {
-    canonical: '/',
-  },
   openGraph: {
     title: "Braces in Jacksonville & Tyler | Blanchard Orthodontics",
     description: "Blanchard Orthodontics exists to help you have a smile that you love through braces, retainers, and more.",
-    url: 'https://blanchardorthodontics.com',
     siteName: 'Blanchard Orthodontics',
     images: [
       {
@@ -54,9 +51,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'G-VZ37QDRHNB',
-  },
+  ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } } : {}),
 };
 
 export default function RootLayout({
@@ -74,9 +69,8 @@ export default function RootLayout({
       </head>
       <body className="body">
         <Scripts />
-        <CMSProvider>
-          {children}
-        </CMSProvider>
+        <AnalyticsEvents />
+        {children}
       </body>
     </html>
   );

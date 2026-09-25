@@ -1,79 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitToGoHighLevel } from '../../../../lib/go-high-level';
 
-export async function GET() {
-  return NextResponse.json({
-    message: 'Contact form API is working',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV,
-    hasWebhookUrl: !!process.env.GOHIGHLEVEL_WEBHOOK_URL,
-    hasLocationId: !!process.env.GOHIGHLEVEL_LOCATION_ID,
-    hasContactTags: !!process.env.GOHIGHLEVEL_CONTACT_TAGS,
-  });
-}
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, subject, message, consent } = body;
-
-    // Log the incoming request
-    console.log('📝 Form submission received:', {
-      name,
-      email,
-      phone: phone ? '***' + phone.slice(-4) : 'not provided',
-      subject,
-      message: message ? 'provided' : 'not provided',
-      consent,
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV,
-    });
-
-    // Validate required fields
-    if (!name || !email || !phone || !consent) {
-      console.log('❌ Validation failed - missing required fields');
-      return NextResponse.json(
-        { error: 'Please fill in all required fields and agree to receive text messages.' },
-        { status: 400 }
-      );
+    const stringField = (key: string, max: number) => typeof body?.[key] === 'string' ? body[key].trim().slice(0, max) : '';
+    const name = stringField('name', 256), email = stringField('email', 256), phone = stringField('phone', 256);
+    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone || body.consent !== true) {
+      return NextResponse.json({ error: 'Please provide your name, email, phone number, and text-message consent.' }, { status: 400 });
     }
-
-    // Check environment variables
-    console.log('🔧 Environment check:', {
-      hasWebhookUrl: !!process.env.GOHIGHLEVEL_WEBHOOK_URL,
-      hasLocationId: !!process.env.GOHIGHLEVEL_LOCATION_ID,
-      hasContactTags: !!process.env.GOHIGHLEVEL_CONTACT_TAGS,
-      webhookUrlLength: process.env.GOHIGHLEVEL_WEBHOOK_URL?.length || 0,
-    });
-
-    // Submit to Go High Level via webhook
-    console.log('🚀 Submitting to Go High Level...');
-    const result = await submitToGoHighLevel({
-      name,
-      email,
-      phone,
-      subject: subject || 'Website Contact Form',
-      message: message || '',
-      consent,
-    });
-
-    console.log('✅ Go High Level submission result:', result);
-
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Thank you! Your message has been sent successfully.',
-      result 
-    });
-
-  } catch (error) {
-    console.error('❌ Form submission error:', error);
-    
-    return NextResponse.json(
-      { 
-        error: 'There was an error sending your message. Please try again.',
-        details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
-      },
-      { status: 500 }
-    );
+    const result = await submitToGoHighLevel({ name, email, phone, consent: true,
+      subject: stringField('subject', 256) || 'Website Contact Form', message: stringField('message', 5000) });
+    if (!result.success) throw new Error('Delivery failed');
+    return NextResponse.json({ success: true, message: 'Your request has been sent to our team.' });
+  } catch {
+    return NextResponse.json({ error: 'Your request could not be sent. Please try again or call (903) 707-6275.' }, { status: 500 });
   }
 }

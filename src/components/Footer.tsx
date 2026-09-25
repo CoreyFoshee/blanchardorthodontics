@@ -33,7 +33,6 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                 <Link href="/about" className="footer-link">About</Link>
                 <Link href="/locations" className="footer-link">Contact Us</Link>
                 <Link href="/privacy-policy" className="footer-link">Privacy Policy</Link>
-                <a href="#" className="footer-link---terms">Terms &amp; Conditions</a>
               </div>
             </div>
             <div id="w-node-_44bf2610-f9aa-e5a2-95d4-47a05bfd9a48-0daf2f1a" className="widget-content-three">
@@ -43,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
               <div className="footer-contact-area">
                 <div className="address-section address-section-one">
                   <div className="address-text">
-                    <Link href="/locations" className="footer-link">Locations</Link>
+                    <div className="footer-office-links"><Link href="/locations/tyler-tx" className="footer-link">Tyler office</Link><Link href="/locations/jacksonville-tx" className="footer-link">Jacksonville office</Link></div>
                   </div>
                 </div>
                 <div className="address-section mail-content">
@@ -61,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
               </div>
               <div className="footer-copyright-text">
                 <div className="copyright-text">
-                  <strong>©</strong> Blanchard Orthodontics 2025<br />
+                  <strong>©</strong> Blanchard Orthodontics {new Date().getFullYear()}<br />
                   Designed by <a href="https://cfdesign.studio" className="cf-design-link"><span>CF Design Studio</span></a>
                 </div>
               </div>
@@ -71,4 +70,4 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
       </div>
     </div>
   );
-}; 
+};
