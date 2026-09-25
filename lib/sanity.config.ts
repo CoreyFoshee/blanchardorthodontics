@@ -1,13 +1,12 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
-// Client for server-side operations (with token)
+// Public published-content reader; no token is needed for this dataset.
 export const serverClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'sln6nq50',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
   useCdn: true, // Re-enabled for performance
-  token: process.env.SANITY_API_TOKEN,
 })
 
 // Client for client-side operations (without token)
@@ -272,4 +271,4 @@ export async function searchArticles(query: string) {
       }
     }
   `, { searchQuery: query })
-} 
+}

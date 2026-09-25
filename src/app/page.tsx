@@ -1,11 +1,13 @@
-'use client';
+import { pageMetadata } from '../../lib/seo';
+export const metadata = pageMetadata("/", "Orthodontist in Tyler & Jacksonville, TX | Blanchard Orthodontics", "Meet Dr. Katelyn Blanchard and explore braces, clear braces, and clear aligners in Tyler and Jacksonville, Texas. Schedule a free consultation.");
+export const revalidate = 120;
 
 import React from 'react';
 import { InfoBanner } from '../components/InfoBanner';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
-import { ClientWrapper } from '../components/ClientWrapper';
 import { ContactForm } from '../components/ContactForm';
+import { OfficeCards } from '../components/OfficeCards';
 
 // Pixel-perfect migration of index.html to Next.js React page
 // All class names, structure, and content are preserved
@@ -55,7 +57,7 @@ function HomeContent() {
               </div>
             </div>
             <div className="div-block-4">
-              <img src="/images/hero-section-two-girls.webp" loading="lazy" id="w-node-_2f78d993-48f5-d085-0266-264ba973c4d3-5d66087f" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" alt="Two young girls smiling with braces." srcSet="/images/hero-section-two-girls-p-500.webp 500w, /images/hero-section-two-girls-p-800.webp 800w, /images/hero-section-two-girls-p-1080.webp 1080w, /images/hero-section-two-girls-p-1600.webp 1600w, /images/hero-section-two-girls-p-2000.webp 2000w, /images/hero-section-two-girls-p-2600.webp 2600w, /images/hero-section-two-girls-p-3200.webp 3200w, /images/hero-section-two-girls.webp 3633w" className="hero-section-photo" />
+              <img src="/images/hero-section-two-girls.webp" loading="eager" fetchPriority="high" id="w-node-_2f78d993-48f5-d085-0266-264ba973c4d3-5d66087f" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" alt="Two young girls smiling with braces." srcSet="/images/hero-section-two-girls-p-500.webp 500w, /images/hero-section-two-girls-p-800.webp 800w, /images/hero-section-two-girls-p-1080.webp 1080w, /images/hero-section-two-girls-p-1600.webp 1600w, /images/hero-section-two-girls-p-2000.webp 2000w, /images/hero-section-two-girls-p-2600.webp 2600w, /images/hero-section-two-girls-p-3200.webp 3200w, /images/hero-section-two-girls.webp 3633w" className="hero-section-photo" />
             </div>
           </div>
         </div>
@@ -83,6 +85,7 @@ function HomeContent() {
           </div>
         </div>
       </div>
+      <section className="repair-section container w-container"><h2>Orthodontic care in Tyler and Jacksonville</h2><p>Choose the office that works for you. Find directions and contact information below.</p><OfficeCards /></section>
       {/* About Section */}
       <div className="about-section">
         <div className="container w-container">
@@ -129,7 +132,7 @@ function HomeContent() {
               <div className="section-title-content consult">We handle everything so all you have to think about is how much you are going to love your smile.<br /></div>
             </div>
             <div className="consult-quick-links-section">
-              <a href="appointments.html" className="consult-quick-link w-inline-block">
+              <a href="/appointments" className="consult-quick-link w-inline-block">
                 <div className="consult-link">1. Schedule your complimentary new patient consultation</div>
               </a>
               <a href="#" className="consult-quick-link w-inline-block">
@@ -246,8 +249,8 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <ClientWrapper>
+    <>
       <HomeContent />
-    </ClientWrapper>
+    </>
   );
 }

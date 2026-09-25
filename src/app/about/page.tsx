@@ -1,18 +1,19 @@
-'use client';
+import { pageMetadata } from '../../../lib/seo';
+export const metadata = pageMetadata("/about", "Meet Our Orthodontist | Blanchard Orthodontics", "Get to know Dr. Katelyn Blanchard, her orthodontic training, and her personal approach to caring for patients in Tyler and Jacksonville, Texas.");
+export const revalidate = 120;
 
 import React from 'react';
-import { useCMS } from '../../components/CMSProvider';
+import { getTeamMembers } from '../../../lib/site-content';
 import { InfoBanner } from '../../components/InfoBanner';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { ClientWrapper } from '../../components/ClientWrapper';
 
 // Pixel-perfect migration of about.html to Next.js React page
 // All class names, structure, and content are preserved
 // All image paths updated to /images/...
 
-function AboutPageContent() {
-  const { teamMembers } = useCMS();
+async function AboutPageContent() {
+  const teamMembers = await getTeamMembers();
 
   return (
     <>
@@ -120,8 +121,8 @@ function AboutPageContent() {
 
 export default function AboutPage() {
   return (
-    <ClientWrapper>
+    <>
       <AboutPageContent />
-    </ClientWrapper>
+    </>
   );
-} 
+}

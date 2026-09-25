@@ -2,9 +2,11 @@ import React from 'react';
 import { InfoBanner } from '../../../components/InfoBanner';
 import { Header } from '../../../components/Header';
 import { Footer } from '../../../components/Footer';
-import { ClientWrapper } from '../../../components/ClientWrapper';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug } from '../../../../lib/sanity.config';
+import { getArticle, getArticles } from '../../../../lib/site-content';
+import { descriptionText, pageMetadata } from '../../../../lib/seo';
+import { RichText } from '../../../components/RichText';
+import type { Metadata } from 'next';
 
 interface ArticlePageProps {
   params: {
@@ -14,14 +16,15 @@ interface ArticlePageProps {
 
 async function ArticleDetailPageContent({ params }: ArticlePageProps) {
   // Fetch article data server-side
-  const article = await getArticleBySlug(params.slug);
-  
+  const article = await getArticle(params.slug);
+
   if (!article) {
     notFound();
   }
 
   // Helper functions
-  const formatDate = (dateString: string): string => {
+  const formatDate = (dateString?: string): string => {
+    if (!dateString) return "";
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -30,55 +33,6 @@ async function ArticleDetailPageContent({ params }: ArticlePageProps) {
     });
   };
 
-  const convertBlockContentToHTML = (blocks: any[]): string => {
-    if (!blocks || !Array.isArray(blocks)) return '';
-    
-    return blocks.map(block => {
-      if (block._type === 'block') {
-        const text = block.children?.map((child: any) => {
-          let childText = child.text || '';
-          
-          if (child.marks && child.marks.includes('strong')) {
-            childText = `<strong>${childText}</strong>`;
-          }
-          
-          if (child.marks && child.marks.includes('em')) {
-            childText = `<em>${childText}</em>`;
-          }
-          
-          return childText;
-        }).join('') || '';
-        
-        let processedText = text
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          .replace(/^##\s+(.*?)$/gm, '<h2>$1</h2>')
-          .replace(/^###\s+(.*?)$/gm, '<h3>$1</h3>')
-          .replace(/^-\s+(.*?)$/gm, '<li>$1</li>')
-          .replace(/^\d+\.\s+(.*?)$/gm, '<li>$1</li>')
-          .replace(/\n\n/g, '</p><p>')
-          .replace(/\n/g, '<br>');
-        
-        if (!processedText.startsWith('<h') && !processedText.startsWith('<li>')) {
-          processedText = `<p>${processedText}</p>`;
-        }
-        
-        if (block.style === 'h1') {
-          return `<h1>${processedText}</h1>`;
-        } else if (block.style === 'h2') {
-          return `<h2>${processedText}</h2>`;
-        } else if (block.style === 'h3') {
-          return `<h3>${processedText}</h3>`;
-        } else if (block.style === 'h4') {
-          return `<h4>${processedText}</h4>`;
-        } else if (block.style === 'blockquote') {
-          return `<blockquote>${processedText}</blockquote>`;
-        } else {
-          return processedText;
-        }
-      }
-      return '';
-    }).join('\n');
-  };
 
   return (
     <>
@@ -92,7 +46,7 @@ async function ArticleDetailPageContent({ params }: ArticlePageProps) {
               <div className="article-listing-meta single-meta">
                 <div className="article-author">
                   <img src="/images/Author-Icon.svg" loading="lazy" alt="Blog User" className="author-icon" />
-                  <div className="article-author-name article-single">{article.author}</div>
+                  <a href="/detail-team/dr-katelyn-blanchard" className="article-author-name article-single">{article.author}</a>
                 </div>
                 <div className="article-date">
                   <img src="/images/Calendar-Icon.svg" loading="lazy" alt="Blog Calendar" className="article-date-icon" />
@@ -111,10 +65,7 @@ async function ArticleDetailPageContent({ params }: ArticlePageProps) {
           </div>
           <div className="single-content-wrap">
             <div className="custom-content-area">
-              <div 
-                className="article-single-wrap w-richtext"
-                dangerouslySetInnerHTML={{ __html: convertBlockContentToHTML(article.content) }}
-              ></div>
+              <div className="article-single-wrap w-richtext"><RichText value={article.content} /></div>
             </div>
           </div>
         </div>
@@ -126,11 +77,21 @@ async function ArticleDetailPageContent({ params }: ArticlePageProps) {
 
 export default async function ArticleDetailPage({ params }: ArticlePageProps) {
   return (
-    <ClientWrapper>
+    <>
       <ArticleDetailPageContent params={params} />
-    </ClientWrapper>
+    </>
   );
 }
 
 // Enable ISR - regenerate every 2 minutes
-export const revalidate = 120; 
+export const revalidate = 120;
+export async function generateStaticParams() {
+  return (await getArticles()).map(article => ({ slug: article.slug.current }));
+}
+export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
+  const article = await getArticle(params.slug);
+  if (!article) notFound();
+  const meta = pageMetadata(`/article/${article.slug.current}`, `${article.title} | Blanchard Orthodontics`,
+    descriptionText(article.excerpt || article.content, article.title), article.featuredImage?.asset?.url);
+  return { ...meta, openGraph: { ...meta.openGraph, type: 'article', publishedTime: article.publishedAt, modifiedTime: article._updatedAt, authors: article.author ? [article.author] : undefined } };
+}

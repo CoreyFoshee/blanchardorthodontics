@@ -51,20 +51,8 @@ export async function submitToGoHighLevel(formData: {
 }): Promise<{ success: boolean; message: string }> {
   try {
     const config = getGoHighLevelConfig();
-    
-    if (!config.webhookUrl) {
-      console.log('Go High Level webhook URL not configured. Form submission logged:', {
-        ...formData,
-        source: 'website_contact_form',
-        location: 'blanchard_orthodontics',
-        timestamp: new Date().toISOString()
-      });
-      
-      return {
-        success: true,
-        message: 'Thank you! Your submission has been received!'
-      };
-    }
+
+    if (!config.webhookUrl) throw new Error('Contact delivery is not configured');
 
     // Split name into first and last name
     const nameParts = formData.name.trim().split(' ');
@@ -96,7 +84,7 @@ export async function submitToGoHighLevel(formData: {
       utm_campaign: 'orthodontics_consultation'
     };
 
-    console.log('Submitting to Go High Level:', goHighLevelData);
+
 
     // Submit to Go High Level webhook
     const response = await fetch(config.webhookUrl, {
@@ -106,6 +94,7 @@ export async function submitToGoHighLevel(formData: {
         'User-Agent': 'Blanchard-Orthodontics-Website/1.0'
       },
       body: JSON.stringify(goHighLevelData),
+      signal: AbortSignal.timeout(10000),
     });
 
     if (!response.ok) {
@@ -113,8 +102,7 @@ export async function submitToGoHighLevel(formData: {
       throw new Error(`Go High Level webhook error: ${response.status}`);
     }
 
-    const result = await response.text();
-    console.log('Go High Level webhook response:', result);
+    await response.text();
 
     return {
       success: true,
@@ -122,7 +110,7 @@ export async function submitToGoHighLevel(formData: {
     };
 
   } catch (error) {
-    console.error('Error submitting to Go High Level:', error);
+    console.error('Contact delivery failed');
     throw new Error('Failed to submit form to Go High Level');
   }
 }

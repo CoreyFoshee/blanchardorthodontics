@@ -1,19 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable strict mode for now to avoid potential issues
   reactStrictMode: false,
-  // Ensure proper image optimization
-  images: {
-    unoptimized: true,
+  images: { unoptimized: true },
+  // Legacy exported URLs have explicit equivalents; unknown URLs remain real 404s.
+  async redirects() {
+    return [
+      { source: '/index.html', destination: '/', permanent: true },
+      ...['about', 'service', 'locations', 'article', 'appointments', 'privacy-policy', 'charleslane'].map(page => ({
+        source: `/${page}.html`, destination: `/${page}`, permanent: true,
+      })),
+      { source: '/orthodontists', destination: '/about', permanent: true },
+      { source: '/orthodontists.html', destination: '/about', permanent: true },
+    ];
   },
-  // Disable TypeScript checking during build for now
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  // Disable ESLint during build for now
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-}
-
-module.exports = nextConfig 
+  eslint: { ignoreDuringBuilds: true },
+};
+module.exports = nextConfig;
